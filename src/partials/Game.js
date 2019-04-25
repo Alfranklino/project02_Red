@@ -1,5 +1,8 @@
+//Classes Files
 import Board from './Board';
 import Paddle from './Paddle';
+import Ball from './Ball';
+//Constants
 import { SVG_NS } from '../settings';
 import { KEYS } from '../settings';
 
@@ -10,6 +13,7 @@ export default class Game {
     this.height = height;
 
     //Other code goes here...
+    this.pause = false;
     this.gameElement = document.getElementById(this.element);
     //Create the Board here
     this.board = new Board(this.width, this.height);
@@ -26,16 +30,36 @@ export default class Game {
     //   this.paddleHeight,
     //   this.boardGap,
     //   ((this.height - this.paddleHeight) / 2) //= (256 - 56) / 20 = 100!!!!
-    
-    
+
+
     this.paddle2 = new Paddle(this.board.height, 8, 56, 494, 100, KEYS.up, KEYS.down);
     //   For Paddle2 we can use this one instead...
     //   Paddle2_X = this.width - this.boardGap - this.PaddleWidth //= 512 - 10 - 8 = 494!!!!
+
+    this.ball = new Ball(8, this.board.width, this.board.height);
+
+    document.addEventListener("keydown", event => {
+
+      switch (event.key) {
+        case KEYS.spaceBar:
+          this.pause = !this.pause;
+          break;
+        default:
+          
+          break;
+      }
+    }
+
+    )
 
   }
 
   render() {
     // More code goes here....
+
+    if (this.pause){
+      return;
+    }
     this.gameElement.innerHTML = '';
     let svg = document.createElementNS(SVG_NS, 'svg');
 
@@ -47,8 +71,14 @@ export default class Game {
     //Render the board
     this.board.render(svg);
 
-    //Render the paddle 02 times
-    this.paddle1.render(svg);
-    this.paddle2.render(svg);
+    
+      //Render the paddle 02 times
+      this.paddle1.render(svg);
+      this.paddle2.render(svg);
+
+      //Render the Ball
+      this.ball.render(svg);
+    
+
   }
 }

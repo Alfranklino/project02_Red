@@ -10,26 +10,25 @@ export default class Paddle {
         this.y = y;
         this.speed = 10;
         this.score = 0;
-
+        //TODO: For that code, we need to find a way instead of 'event =>' to
+        // document.addEventListener("keydown", function(event)
         document.addEventListener("keydown", event => {
             switch (event.key) {
                 case up:
-                //   console.log("up");
-                  this.y = (this.y - this.speed);
-                  break;
+                    this.y = Math.max(0, this.y - this.speed); //We actually are decreasing the y, and might choose the maximum value if y - speed is too small
+                    break;
                 case down:
-                //   console.log("down");
-                  this.y = (this.y + this.speed);
-                  break;
-              }
+                    this.y = Math.min((this.boardHeight - this.height), (this.y + this.speed)); //We actually are increasing the y, and might choose the minimum value if y + speed is too high
+                    break;
+            }
         })
     }
     //Create a function to Render the paddle
     render(svg) {
         //<rect x="10" y="100" width="8" height="56" stroke-width="3" fill="white" stroke="white"></rect>
         //<rect x="494" y="100" width="8" height="56" stroke-width="3" fill="white" stroke="white"></rect>
-        
-        
+
+
         //CreateElement Rect
         let rect = document.createElementNS(SVG_NS, 'rect');
         rect.setAttributeNS(null, 'x', this.x);
