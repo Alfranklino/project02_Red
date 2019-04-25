@@ -42,7 +42,7 @@ export default class Game {
 
       switch (event.key) {
         case KEYS.spaceBar:
-          this.pause = !this.pause;
+          this.pause = !this.pause;          
           break;
         default:
           
@@ -58,8 +58,15 @@ export default class Game {
     // More code goes here....
 
     if (this.pause){
+      this.paddle1.speed = 0;
+      this.paddle2.speed = 0;
       return;
     }
+      else{
+        this.paddle1.speed = 10;
+        this.paddle2.speed = 10;
+      }
+    
     this.gameElement.innerHTML = '';
     let svg = document.createElementNS(SVG_NS, 'svg');
 
