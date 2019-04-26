@@ -10,12 +10,44 @@ export default class Ball {
     }
 
     wallCollision() {
-        // if (this.x - this.radius <= 0 || this.x + this.radius >= this.boardWidth) {
-        //     this.vx = -this.vx;
-        // }
-        // else 
-        if (this.y - this.radius <= 0 || this.y + this.radius >= this.boardHeight) {
+        if (this.x - this.radius <= 0 || this.x + this.radius >= this.boardWidth) {
+            this.vx = -this.vx;
+        }
+        else if (this.y - this.radius <= 0 || this.y + this.radius >= this.boardHeight) {
             this.vy = -this.vy;
+        }
+    }
+    //TODO: Rewrite that function in a more simple way see inside TabS4
+    paddleCollision(paddle1, paddle2) {
+        if (this.vx > 0) {
+            //
+            let pad2Coords = paddle2.getCoordinates(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
+            let [leftX, rightX, topY, bottomY] = pad2Coords;
+            //Here we can console ..console.log(leftX, rightX, topY, bottomY)
+            if (
+                (this.x + this.radius >= leftX)
+                && (this.x + this.radius <= rightX)
+                && (this.y + this.radius >= topY) 
+                && (this.y - this.radius <= bottomY)
+            ) {
+                this.vx = -this.vx;
+            }
+        }
+        else {
+            //get paddle1Coords
+            let pad1Coords = paddle1.getCoordinates(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
+            let [leftX, rightX, topY, bottomY] = pad1Coords;
+            //test Ball position relative to the pad1Coords
+            if (
+                (this.x - this.radius <= rightX)
+                && (this.x - this.radius >= leftX)
+                && (this.y + this.radius >= topY) 
+                && (this.y - this.radius <= bottomY)
+            ) {
+                //reverse the movement of that ball
+                this.vx = -this.vx;
+            }
+
         }
     }
 
@@ -33,12 +65,13 @@ export default class Ball {
     }
 
 
-    render(svg) {
+    render(svg, paddle1, paddle2) {
         //Ball initial Movemevent
         this.x += this.vx;
         this.y += this.vy;
 
         this.wallCollision();
+        this.paddleCollision(paddle1, paddle2);
         let circle = document.createElementNS(SVG_NS, 'circle');
         circle.setAttributeNS(null, 'cx', this.x);
         circle.setAttributeNS(null, 'cy', this.y);

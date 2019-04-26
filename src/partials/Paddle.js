@@ -23,6 +23,17 @@ export default class Paddle {
             }
         })
     }
+
+
+    //TODO: Collect the x, y coordinates of the paddle
+    getCoordinates(x, y, padWith, padHeight) {
+        let leftX = x;
+        let rightX = x + padWith;
+        let topY = y;
+        let bottomY = y + padHeight;
+        return [leftX, rightX, topY, bottomY];
+    }
+
     //Create a function to Render the paddle
     render(svg) {
         //<rect x="10" y="100" width="8" height="56" stroke-width="3" fill="white" stroke="white"></rect>
