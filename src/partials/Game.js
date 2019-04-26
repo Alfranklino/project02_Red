@@ -2,6 +2,7 @@
 import Board from './Board';
 import Paddle from './Paddle';
 import Ball from './Ball';
+import Score from './Score';
 //Constants
 import { SVG_NS } from '../settings';
 import { KEYS } from '../settings';
@@ -38,14 +39,17 @@ export default class Game {
 
     this.ball = new Ball(8, this.board.width, this.board.height);
 
+    this.score1 = new Score(this.width / 2 - 50, 30, 30);
+    this.score2 = new Score(this.width / 2 + 25, 30, 30);
+
     document.addEventListener("keydown", event => {
 
       switch (event.key) {
         case KEYS.spaceBar:
-          this.pause = !this.pause;          
+          this.pause = !this.pause;
           break;
         default:
-          
+
           break;
       }
     }
@@ -57,16 +61,16 @@ export default class Game {
   render() {
     // More code goes here....
 
-    if (this.pause){
+    if (this.pause) {
       this.paddle1.speed = 0;
       this.paddle2.speed = 0;
       return;
     }
-      else{
-        this.paddle1.speed = 10;
-        this.paddle2.speed = 10;
-      }
-    
+    else {
+      this.paddle1.speed = 10;
+      this.paddle2.speed = 10;
+    }
+
     this.gameElement.innerHTML = '';
     let svg = document.createElementNS(SVG_NS, 'svg');
 
@@ -78,14 +82,17 @@ export default class Game {
     //Render the board
     this.board.render(svg);
 
-    
-      //Render the paddle 02 times
-      this.paddle1.render(svg);
-      this.paddle2.render(svg);
 
-      //Render the Ball
-      this.ball.render(svg, this.paddle1, this.paddle2);
-    
+    //Render the paddle 02 times
+    this.paddle1.render(svg);
+    this.paddle2.render(svg);
+
+    //Render the Ball
+    this.ball.render(svg, this.paddle1, this.paddle2);
+
+    this.score1.render(svg, this.paddle1.score);
+    this.score2.render(svg, this.paddle2.score);
+
 
   }
 }

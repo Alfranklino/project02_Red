@@ -27,7 +27,7 @@ export default class Ball {
             if (
                 (this.x + this.radius >= leftX)
                 && (this.x + this.radius <= rightX)
-                && (this.y + this.radius >= topY) 
+                && (this.y + this.radius >= topY)
                 && (this.y - this.radius <= bottomY)
             ) {
                 this.vx = -this.vx;
@@ -41,7 +41,7 @@ export default class Ball {
             if (
                 (this.x - this.radius <= rightX)
                 && (this.x - this.radius >= leftX)
-                && (this.y + this.radius >= topY) 
+                && (this.y + this.radius >= topY)
                 && (this.y - this.radius <= bottomY)
             ) {
                 //reverse the movement of that ball
@@ -64,6 +64,13 @@ export default class Ball {
         this.vx = this.direction * (6 - Math.abs(this.vy));
     }
 
+    goal(paddle) {
+        paddle.score++; //A property of Paddle Class
+        this.reset();
+        // let scoreP1 = 0;
+        // let scoreP2 = 0;
+        //Console that score        
+    }
 
     render(svg, paddle1, paddle2) {
         //Ball initial Movemevent
@@ -80,6 +87,21 @@ export default class Ball {
         circle.setAttributeNS(null, 'stroke', 'white');
 
         svg.appendChild(circle);
+
+        const isRightGoal = this.x + this.radius >= this.boardWidth;
+        const isLeftGoal = this.x - this.radius <= 0;
+
+        if (isRightGoal) {
+            this.goal(paddle1);
+            this.direction = 1;
+        }
+        else if (isLeftGoal)
+        {
+            this.goal(paddle2);
+            this.direction = -1;
+        }
+
+
 
     }
 }
