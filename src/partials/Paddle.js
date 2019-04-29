@@ -2,7 +2,7 @@ import { SVG_NS } from '../settings';
 import { KEYS } from '../settings';
 
 export default class Paddle {
-    constructor(boardHeight, width, height, x, y, up, down) {
+    constructor(boardHeight, width, height, x, y, up, down, fire) {
         this.boardHeight = boardHeight;
         this.width = width;
         this.height = height;
@@ -20,12 +20,15 @@ export default class Paddle {
                 case down:
                     this.y = Math.min((this.boardHeight - this.height), (this.y + this.speed)); //We actually are increasing the y, and might choose the minimum value if y + speed is too high
                     break;
+                case fire:
+                    //TODO: Fire the ball here...
+
             }
         })
     }
 
 
-    //TODO: Collect the x, y coordinates of the paddle
+    //Collect the x, y coordinates of the paddle
     getCoordinates(x, y, padWith, padHeight) {
         let leftX = x;
         let rightX = x + padWith;

@@ -19,7 +19,7 @@ export default class Game {
     //Create the Board here
     this.board = new Board(this.width, this.height);
     //Create the Paddle
-    this.paddle1 = new Paddle(this.board.height, 8, 56, 10, 100, KEYS.a, KEYS.z);
+    this.paddle1 = new Paddle(this.board.height, 8, 56, 10, 100, KEYS.a, KEYS.z, KEYS.x);
     //Or we can use this one instead (From Rob)
 
     //   this.paddleWidth = 8;
@@ -33,7 +33,7 @@ export default class Game {
     //   ((this.height - this.paddleHeight) / 2) //= (256 - 56) / 20 = 100!!!!
 
 
-    this.paddle2 = new Paddle(this.board.height, 8, 56, 494, 100, KEYS.up, KEYS.down);
+    this.paddle2 = new Paddle(this.board.height, 8, 56, 494, 100, KEYS.up, KEYS.down, KEYS.left);
     //   For Paddle2 we can use this one instead...
     //   Paddle2_X = this.width - this.boardGap - this.PaddleWidth //= 512 - 10 - 8 = 494!!!!
 

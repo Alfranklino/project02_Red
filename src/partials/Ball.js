@@ -1,4 +1,6 @@
 import { SVG_NS } from '../settings';
+import { PING_COLLISION } from '../settings';
+import { GOAL_SOUND } from '../settings';
 
 export default class Ball {
     constructor(radius, boardWidth, boardHeight) {
@@ -6,10 +8,15 @@ export default class Ball {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         this.direction = 1;
+        this.soundPing = new Audio(PING_COLLISION);
+        this.soundGoal = new Audio(GOAL_SOUND);
+        this.goal
+        this.hasBeenResetAfterGoal = false;
         this.reset()
     }
 
     wallCollision() {
+       
         if (this.x - this.radius <= 0 || this.x + this.radius >= this.boardWidth) {
             this.vx = -this.vx;
         }
@@ -19,6 +26,7 @@ export default class Ball {
     }
     //TODO: Rewrite that function in a more simple way see inside TabS4
     paddleCollision(paddle1, paddle2) {
+
         if (this.vx > 0) {
             //
             let pad2Coords = paddle2.getCoordinates(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
@@ -31,6 +39,9 @@ export default class Ball {
                 && (this.y - this.radius <= bottomY)
             ) {
                 this.vx = -this.vx;
+                //Sound added
+                this.soundPing.play();                
+                
             }
         }
         else {
@@ -46,9 +57,22 @@ export default class Ball {
             ) {
                 //reverse the movement of that ball
                 this.vx = -this.vx;
+                //Sound added
+                this.soundPing.play();
+                
+                
             }
 
         }
+    }
+
+    resetAfterGoal(APaddle) {
+        //TODO: Get the paddle position of the loser
+        let paddleCoords = APaddle.getCoordinates(APaddle.x, APaddle.y, APaddle.width, APaddle.height);
+        let [leftX, rightX, topY, bottomY] = paddleCoords;
+        //TODO: Set the ball at that position
+
+        //TODO: if reset, set the hasBeenResetAfter var to true, until that moves the ball with the paddle
     }
 
     reset() {
@@ -92,13 +116,19 @@ export default class Ball {
         const isLeftGoal = this.x - this.radius <= 0;
 
         if (isRightGoal) {
+            //Sound Goal
+            this.soundGoal.play();
             this.goal(paddle1);
             this.direction = 1;
+            //TODO: Call the resetAfterGoal Function
+            
         }
-        else if (isLeftGoal)
-        {
+        else if (isLeftGoal) {
+            //Sound Goal
+            this.soundGoal.play();
             this.goal(paddle2);
             this.direction = -1;
+            //TODO: Call the resetAfterGoal Function
         }
 
 
